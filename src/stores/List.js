@@ -16,6 +16,7 @@ class List {
   }
 
   @computed get Completed() {
+    if (Object.keys(this.todos).length < 1) return {}
     return Object.keys(this.todos)
                 .filter(key => this.todos[key].completed === true)
                 .reduce((obj, key) => {
@@ -25,6 +26,7 @@ class List {
   }
 
   @computed get Uncompleted() {
+    if (Object.keys(this.todos).length < 1) return {}
     return Object.keys(this.todos)
                 .filter(key => this.todos[key].completed === false)
                 .reduce((obj, key) => {

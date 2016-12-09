@@ -38,7 +38,8 @@ class Lists extends Component {
         {
           Object.keys(todos).map(key => {
             const cate = todos[key].category
-            const category = cate ? <Chip key={cate} style={{margin: 2}}>{ListStore.categories[cate]}</Chip> : null
+            const category = cate ? <Chip key={cate} style={{margin: 2}}>{(ListStore.categories[cate] || {}).title}</Chip> : null
+
             return [
               <ListItem
                 key={key}
