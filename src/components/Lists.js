@@ -23,7 +23,7 @@ const iconButtonElement = (
 @observer
 class Lists extends Component {
   toggle(key, value) {
-    ListStore.todos[key].completed = value
+    ListStore.toggle(key, value)
   }
 
   render() {

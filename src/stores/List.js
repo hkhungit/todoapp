@@ -1,27 +1,18 @@
 import { observable, computed } from 'mobx'
+import {database} from '../db/firebase'
 
 class List {
-  @observable categories = {
-    'category-1': 'Label 1',
-    'category-2': 'Label 2',
-    'category-3': 'Label 3',
-    'category-4': 'Label 4',
-  }
+  @observable categories = {}
+  @observable todos = {}
 
-  @observable todos = {
-    'todo-1': {
-      completed: true,
-      title: 'Title todo 1',
-      description: 'Description todo 1',
-      created_at: Date.now()
-    },
-    'todo-2': {
-      completed: false,
-      title: 'Title todo 2',
-      description: 'Description todo 2',
-      category: 'category-1',
-      created_at: Date.now()
-    }
+  constructor() {
+    database.ref('todos').on('value', (snapshot) => {
+      this.todos = snapshot.val() || {}
+    })
+
+    database.ref('categories').on('value', (snapshot) => {
+      this.categories = snapshot.val() || {}
+    })
   }
 
   @computed get Completed() {
@@ -42,18 +33,29 @@ class List {
                 }, {})
   }
 
+  toggle(key, value) {
+    this.todos = {...this.todos}
+    return database.ref(`todos/${key}`).update({completed: value})
+  }
+
   add(todo) {
     const created_at = Date.now()
     todo = {...todo, created_at}
-    this.todos = {
-      ...this.todos,
-      [created_at]: todo
-    }
+    
+    return database.ref('todos').push(todo)
   }
 
   delete(key) {
     delete this.todos[key]
     this.todos = {...this.todos}
+    return database.ref(`todos/${key}`).remove()
+  }
+
+
+  addCategory(category) {
+    const created_at = Date.now()
+    category = {...category, created_at}
+    return database.ref('categories').push(category)
   }
 }
 

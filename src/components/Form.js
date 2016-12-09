@@ -8,8 +8,10 @@ import { observable } from 'mobx'
 import Subheader from 'material-ui/Subheader'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-
 import ListStore from '../stores/List'
+import IconButton from 'material-ui/IconButton'
+import Add from 'material-ui/svg-icons/action/note-add'
+import CategoryForm from './CategoryForm'
 
 @observer
 class Form extends Component {
@@ -19,6 +21,7 @@ class Form extends Component {
   @observable category = null
   @observable isSubmiting = false
   @observable error = {}
+
 
   add() {
     this.isSubmiting = true
@@ -57,7 +60,7 @@ class Form extends Component {
 
   render() {
     return (
-      <Paper style={{padding: 30}}>
+      <Paper style={{padding: 30, paddingLeft: 50}}>
         <Subheader style={{textAlign: 'center'}}> ADD TODO </Subheader>
         <TextField
           value={this.title}
@@ -72,16 +75,22 @@ class Form extends Component {
           hintText="Todo description"
           onChange={e => {this.description = e.target.value}}
         /><br />
-        <SelectField
-          value={this.category}
-          floatingLabelText="Category *"
-          errorText={this.error.category}
-          onChange={(_, index, value) => this.category = value}
-        >
-          {Object.keys(ListStore.categories).map(key => 
-            <MenuItem key={key} value={key} primaryText={ListStore.categories[key]} />
-          )}
-        </SelectField>
+        <div style={{display: 'flex', alignItems: 'flex-end'}}>
+          <SelectField
+            value={this.category}
+            floatingLabelText="Category *"
+            errorText={this.error.category}
+            onChange={(_, index, value) => this.category = value}
+          >
+            {Object.keys(ListStore.categories).map(key => 
+              <MenuItem key={key} value={key} primaryText={(ListStore.categories[key] || {}).title} />
+            )}
+          </SelectField>
+          <IconButton
+            onTouchTap={() => this.categoryForm.open = true}>
+            <Add/>
+          </IconButton>
+        </div> <br />
         <div style={{display: 'flex'}}>
           <Checkbox checked={this.completed} style={{width: 40}} onTouchTap={(e, value) => this.completed = !e.target.checked}/> Completed
         </div> <br />
@@ -97,6 +106,7 @@ class Form extends Component {
             secondary={true}
             onTouchTap={this.reset.bind(this)}/>
         </div>
+        <CategoryForm ref={ref => this.categoryForm = ref}/>
       </Paper>
     )
   }

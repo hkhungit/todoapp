@@ -11,18 +11,15 @@ function getClientEnvironment(publicUrl) {
       env[key] = JSON.stringify(process.env[key]);
       return env;
     }, {
-      // Useful for determining whether we’re running in production mode.
-      // Most importantly, it switches React into the correct mode.
       'NODE_ENV': JSON.stringify(
         process.env.NODE_ENV || 'development'
       ),
-      // Useful for resolving the correct path to static assets in `public`.
-      // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
-      // This should only be used as an escape hatch. Normally you would put
-      // images into the `src` and `import` them in code to get their paths.
+      FIREBASE_AUTH: JSON.stringify('todoapp-8589e.firebaseapp.com'),
+      FIREBASE_DATABASE: JSON.stringify('https://todoapp-8589e.firebaseio.com'),
+      FIREBASE_KEY: JSON.stringify('AIzaSyBTO2Q9K50C8tYjG0IujH66pFzb-Rwa_Ak'),
       'PUBLIC_URL': JSON.stringify(publicUrl)
     });
-  return {'process.env': processEnv};
+  return {'process.env': processEnv}
 }
 
-module.exports = getClientEnvironment;
+module.exports = getClientEnvironment

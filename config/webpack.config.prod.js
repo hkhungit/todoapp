@@ -60,19 +60,9 @@ module.exports = {
     paths.appIndexJs
   ],
   output: {
-    // The build folder.
     path: paths.appBuild,
-    // Generated JS file names (with nested folders).
-    // There will be one main bundle, and one file per asynchronous chunk.
-    // We don't currently advertise code splitting but Webpack supports it.
-    filename: 'static/js/[name].[chunkhash:8].js',
-    chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
-    // Given Webpack supports codesplit and production bundles are using 
-    // subresource integrity, it's important to make sure the attribute
-    // set on async-loaded chunks is set to anonymous.
-    crossOriginLoading: 'anonymous',
-    // We inferred the "public path" (such as / or /my-project) from homepage.
-    publicPath: publicPath
+    publicPath: '/',
+    filename: 'bundle.js'
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
