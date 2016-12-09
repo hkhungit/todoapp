@@ -1,1 +1,1 @@
-This project is a demo todo app with firebase
+This project is a todo app with firebase. You can see demo at https://todoapp-8589e.firebaseapp.com/
